@@ -1,7 +1,4 @@
-const textInput = document.getElementById("textInput");
-const keyInput = document.getElementById("keyInput");
-const scrambleBtn = document.getElementById("scrambleBtn");
-const decodeBtn = document.getElementById("decodeBtn");
+
 
 function filterPrintableASCII(value) {
   let result = "";
@@ -22,9 +19,14 @@ textInput.addEventListener("input", function () {
 });
 
 keyInput.addEventListener("input", function () {
-  const filtered = filterPrintableASCII(this.value);
-  if (this.value !== filtered) {
-    this.value = filtered;
+  if (!expandedCheckBox.checked) {
+    const upper = this.value.toUpperCase();
+    this.value = upper
+      .split("")
+      .filter(ch => standartDict.includes(ch))
+      .join("");
+  } else {
+    this.value = this.value.replace(/[^\x20-\x7E]/g, "");
   }
 });
 

@@ -3,26 +3,60 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link type="text/css" rel="stylesheet" href="index.css">
     <title>Vigenere konverteris</title>
   </head>
   <body>
-    <form id="form">
-      <div>
-        <label for="textInput">Tekstas:</label>
-        <input type="text" id="textInput" name="text"/>
-      </div>
+    <form id="form" class="inputForm">
+        <div id="sliderContainer" class="formRow">
+            <span>Išlėstinis: </span>
+            <label class="toggle-switch">
+                <input id="expanded" type="checkbox" />
+                <span class="slider"></span>
+            </label>
+        </div>
+        <div class="formRow">
+            <label for="textInput">Tekstas: </label>
+            <input type="text" id="textInput" name="text" class="inputField"/>
+        </div>
 
-      <div>
-        <label for="keyInput">Rasktas:</label>
-        <input type="text" id="keyInput" name="key"/>
-      </div>
+        <div class="formRow">
+            <label for="keyInput">Raktas: </label>
+            <input type="text" id="keyInput" name="key" class="inputField"/>
+        </div>
 
-      <div>
-        <button type="button" id="scrambleBtn">Užkoduoti</button>
-        <button type="button" id="decodeBtn">Atkoduoti</button>
-      </div>
+        <div id="buttonWrapper" class="formRow">
+            <button type="button" id="scrambleBtn" class="button">Užkoduoti</button>
+            <button type="button" id="decodeBtn" class="button">Atkoduoti</button>
+        </div>
+        <div class="outputRow ">
+            <div id="output"></div>
+        </div>
     </form>
     <script src="inputCheck.js"></script>
     <script src="converter.js"></script>
+    <script>
+       
+        const expandedCheckBox = document.getElementById("expanded");
+        const textInput = document.getElementById("textInput");
+        const keyInput = document.getElementById("keyInput");
+        const scrambleBtn = document.getElementById("scrambleBtn");
+        const decodeBtn = document.getElementById("decodeBtn");
+        const standartDict = ["A","B","C","D","E","F","G","H","I","J","K","L",
+                            "M","N","O","P","Q","R","S","T","U","V","W","X","Y","Z"];
+
+        scrambleBtn.addEventListener("click", function () {
+            var sourceText = textInput.value;
+            const sourceInput = keyInput.value;
+            if(!expandedCheckBox.cheked){
+                sourceText = sourceText.toUpperCase();
+            }
+            scramble(sourceText, sourceInput);
+        });
+        document.getElementById("expanded").addEventListener("change", function(){
+            document.getElementById("keyInput").value = "";
+            updateButtonState();
+        })
+    </script>
   </body>
 </html>
