@@ -1,18 +1,17 @@
 var dictionary = null;
+var reverseDictionary = null;
 
 function generateDictionaries() {
-  const forward = {};
-  const reverse = {};
-
+  const forwardDict = {};
+  const reverseDict = {};
   for (let i = 32; i <= 126; i++) {
     const char = String.fromCharCode(i);
     const value = i - 32;   // 0..94
 
-    forward[char] = value;
-    reverse[value] = char;
+    forwardDict[char] = value;
+    reverseDict[value] = char;
   }
-
-  return { forward, reverse };
+  return { forwardDict, reverseDict };
 }
 
 function parse(key){
@@ -28,29 +27,29 @@ function createArrayCounter(array) {
     };
 }
 
-function getKeyByValue(value) {
-  return Object.keys(dictionary).find(key => dictionary[key] === value);
-}
-
-function convertLetter(letter, factor){
-    let newLetterNumber = dictionary[letter] + dictionary[factor];
-
+function convertLetter(dict, reverseDict, letter, factor){
+    let newLetterNumber = dict[letter] + dict[factor];
     newLetterNumber = newLetterNumber % 95;
-    return getKeyByValue(newLetterNumber);
+    return reverseDict[newLetterNumber];
 }
 
 function scramble(messageText, codeKey){
+    let scrambledTextArray = [];
     if(!dictionary){
-        const { dictionary, reverseDictionary } = generateDictionaries();
+        const { forwardDict, reverseDict } = generateDictionaries();
+        dictionary = forwardDict;
+        reverseDictionary = reverseDict;
     }
-    scrambledTextArray.length = 0;
     const key = parse(codeKey);
     const text = parse(messageText);
     const keyCounter = createArrayCounter(key);
     text.forEach(letter => {
         let keyFactor = keyCounter();
-        scrambledTextArray.push(convertLetter(letter, keyFactor));     
+        scrambledTextArray.push(convertLetter(dictionary, reverseDictionary, letter, keyFactor));     
     });
     const finalText = scrambledTextArray.join("");
     return finalText;
 }
+
+
+
