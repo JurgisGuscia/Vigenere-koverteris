@@ -53,10 +53,15 @@
             }
             scramble(sourceText, sourceInput);
         });
+
         document.getElementById("expanded").addEventListener("change", function(){
             document.getElementById("keyInput").value = "";
             updateButtonState();
         })
+
+        decodeBtn.addEventListener("click", () => {
+            decode(textInput.value, keyInput.value);
+        });
     </script>
   </body>
 </html>

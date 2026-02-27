@@ -79,5 +79,56 @@ function scramble(messageText, codeKey) {
     document.getElementById("output").textContent = scrambledTextArray.join("");
 }
 
+function decodeLetter(dict, reverseDict, letter, factor) {
+    if (letter === " ") return letter; 
+    if (dict[letter] === undefined || dict[factor] === undefined) return letter;
+
+    let n = dict[letter] - dict[factor];
+    n = (n + 95) % 95;
+    return reverseDict[n];
+}
+
+function decode(messageText, codeKey) {
+    const mode = document.getElementById("expanded");
+    const { forwardDict, reverseDict } = generateDictionaries();
+
+    const key = parse(codeKey);
+    const text = parse(messageText);
+    const keyCounter = createArrayCounter(key);
+
+    const out = [];
+    for (const letter of text) {
+        if (mode.checked) {
+            if (letter === " ") {
+                out.push(letter);
+                continue;
+            }
+            const keyFactor = keyCounter();
+            out.push(decodeLetter(forwardDict, reverseDict, letter, keyFactor));
+        } else {
+            const upper = letter.toUpperCase();
+            if (!standartDict.includes(upper)) {
+                out.push(letter);
+                continue;
+            }
+            const keyFactor = keyCounter();
+            out.push(decodeLetterStandart(standartDict, letter, keyFactor));
+        }
+    }
+
+    document.getElementById("output").textContent = out.join("");
+}
+
+function decodeLetterStandart(dict, letter, factor) {
+    const L = letter.toUpperCase();
+    const F = factor.toUpperCase();
+    const c = dict.indexOf(L);
+    const k = dict.indexOf(F);
+    if (c === -1 || k === -1) return letter;
+    const p = (c - k + 26) % 26;
+    const out = dict[p];
+    return letter === letter.toLowerCase() ? out.toLowerCase() : out;
+}
+
 
 
