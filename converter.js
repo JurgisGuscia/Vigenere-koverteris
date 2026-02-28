@@ -39,7 +39,7 @@ function convertLetterStandart(dict, letter, factor) {
 }
 
 function convertLetter(dict, reverseDict, letter, factor) {
-    if (dict[letter] === undefined || dict[factor] === undefined || letter === " ") {
+    if (dict[letter] === undefined || dict[factor] === undefined) {
         return letter; 
     }
     let newLetterNumber = dict[letter] + dict[factor];
@@ -59,10 +59,6 @@ function scramble(messageText, codeKey) {
     const scrambledTextArray = [];
     for (const letter of text) {
         if (mode.checked) {
-            if (letter === " ") {
-            scrambledTextArray.push(letter);
-            continue;
-            }
             const keyFactor = keyCounter();
             scrambledTextArray.push(convertLetter(dictionary, reverseDictionary, letter, keyFactor));
         } else {
@@ -82,7 +78,6 @@ function scramble(messageText, codeKey) {
 function decodeLetter(dict, reverseDict, letter, factor) {
     if (letter === " ") return letter; 
     if (dict[letter] === undefined || dict[factor] === undefined) return letter;
-
     let n = dict[letter] - dict[factor];
     n = (n + 95) % 95;
     return reverseDict[n];
@@ -91,11 +86,9 @@ function decodeLetter(dict, reverseDict, letter, factor) {
 function decode(messageText, codeKey) {
     const mode = document.getElementById("expanded");
     const { forwardDict, reverseDict } = generateDictionaries();
-
     const key = parse(codeKey);
     const text = parse(messageText);
     const keyCounter = createArrayCounter(key);
-
     const out = [];
     for (const letter of text) {
         if (mode.checked) {
