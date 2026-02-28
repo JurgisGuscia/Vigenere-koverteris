@@ -8,6 +8,7 @@ body{
     width: 100vw;
     height: 100vh;
     display: flex;
+    flex-direction: column;
     justify-content: center;
     align-items: center;
 }
@@ -115,5 +116,26 @@ body{
     transform: translateX(26px);
 }
 #output{
+    white-space: pre-wrap;
+}
+.dictDisplayWrapper{
+    height: 180px;
+    width: 400px;
+    margin-bottom: 20px;
+    display: flex;
+    flex-flow: row nowrap;
+    justify-content: flex-start;
+    align-items: flex-start;
+}
+.dictTitle{
+    height: 20px;
+    
+}
+.dictList{
+    display: flex;
+    justify-content: flex-start;
+    align-items: flex-start;
+    flex-flow: row wrap;
+    width: 320px;
     white-space: pre-wrap;
 }

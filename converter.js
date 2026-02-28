@@ -1,5 +1,4 @@
-var dictionary = null;
-var reverseDictionary = null;
+
 
 function generateDictionaries() {
   const forwardDict = {};
@@ -49,10 +48,6 @@ function convertLetter(dict, reverseDict, letter, factor) {
 
 function scramble(messageText, codeKey) {
     const mode = document.getElementById("expanded");
-    const { forwardDict, reverseDict } = generateDictionaries();
-    dictionary = forwardDict;
-    reverseDictionary = reverseDict;
-    
     const key = parse(codeKey);
     const text = parse(messageText);
     const keyCounter = createArrayCounter(key);
